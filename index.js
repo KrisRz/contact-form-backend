@@ -1,19 +1,22 @@
-//@ts-nocheck
 require("dotenv").config();
 const cors = require("cors");
 const express = require("express");
-const sendEmail = require("./api/sendEmail"); // Import the router correctly
+const sendEmail = require("./sendEmail");
 
 const app = express();
 
+// ✅ Allow CORS for local development (127.0.0.1:5500) and live website
 const corsOptions = {
-  origin: "https://krisgrzepka.uk", // Ensure it's the correct domain
-  optionsSuccessStatus: 200,
+  origin: ["http://127.0.0.1:5500", "https://krisgrzepka.uk"], // Allow both local and deployed frontends
+  methods: "POST",
+  allowedHeaders: ["Content-Type"],
 };
 
 app.use(cors(corsOptions));
 app.use(express.json());
-app.use("/api/send-email", sendEmail); // Correct usage of sendEmail router
+
+// ✅ Setup API Route for sending emails
+app.use("/api/send-email", sendEmail);
 
 const port = process.env.PORT || 3000;
 app.listen(port, () => console.log(`🚀 Server running on port ${port}`));
