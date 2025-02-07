@@ -1,20 +1,15 @@
 require("dotenv").config(); // Load .env variables
 const express = require("express");
-const cors = require("cors");
 const Mailjet = require("node-mailjet");
 
-const app = express();
-const PORT = process.env.PORT || 5000;
-
-app.use(cors());
-app.use(express.json());
+const router = express.Router(); // Use Express Router instead of creating a new app
 
 const mailjet = Mailjet.apiConnect(
   process.env.MJ_APIKEY_PUBLIC,  // Secure API Key
   process.env.MJ_APIKEY_PRIVATE  // Secure API Secret
 );
 
-app.post("/send-email", async (req, res) => {
+router.post("/", async (req, res) => {  // Route now properly defined
   const { name, email, subject, message } = req.body;
 
   try {
@@ -44,6 +39,5 @@ app.post("/send-email", async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+// Export router instead of creating a new Express app
+module.exports = router;
