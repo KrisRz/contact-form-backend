@@ -7,7 +7,7 @@ const app = express();
 
 // ✅ Allow CORS for local development (127.0.0.1:5500) and live website
 const corsOptions = {
-  origin: ["http://127.0.0.1:5500", "https://krisgrzepka.uk"], // Allow both local and deployed frontends
+  origin: ["https://krisgrzepka.uk", "http://localhost:5500"], // Allow both local and deployed frontends
   methods: "POST",
   allowedHeaders: ["Content-Type"],
 };
