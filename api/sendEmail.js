@@ -14,10 +14,13 @@ router.post("/", async (req, res) => {
 
   // ✅ Check if all required fields are provided
   if (!name || !email || !subject || !message) {
+    console.log("❌ Missing form data:", { name, email, subject, message });
     return res.status(400).json({ error: "All fields are required!" });
   }
 
   try {
+    console.log("📨 Sending email via Mailjet...");
+    
     const request = mailjet.post("send", { version: "v3.1" }).request({
       Messages: [
         {
@@ -38,6 +41,7 @@ router.post("/", async (req, res) => {
     });
 
     const result = await request;
+    console.log("✅ Email sent successfully:", result.body);
     res.json({ success: true, response: result.body });
 
   } catch (err) {
